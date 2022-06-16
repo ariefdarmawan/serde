@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/ariefdarmawan/serde"
-	"github.com/eaciit/toolkit"
+	"github.com/sebarcode/codekit"
 )
 
 func TestSerdeObjToObj(t *testing.T) {
@@ -39,8 +39,8 @@ func TestSerdeObjToObj(t *testing.T) {
 	if s2.SubPtr.Generic1 != s1.SubPtr.Generic1 {
 		t.Errorf("Generic  error")
 	}
-	fmt.Println(toolkit.JsonString(s1))
-	fmt.Println(toolkit.JsonString(s2))
+	fmt.Println(codekit.JsonString(s1))
+	fmt.Println(codekit.JsonString(s2))
 }
 
 func TestSerdeMapToObj(t *testing.T) {
@@ -74,8 +74,8 @@ func TestSerdeMapToObj(t *testing.T) {
 	if s2.Date2 == nil || s2.Date2.String() != s1["Date2"].(time.Time).String() {
 		t.Errorf("Date error")
 	}
-	fmt.Println(toolkit.JsonString(s1))
-	fmt.Println(toolkit.JsonString(s2))
+	fmt.Println(codekit.JsonString(s1))
+	fmt.Println(codekit.JsonString(s2))
 }
 
 func TestSerdeObjToMap(t *testing.T) {
@@ -110,8 +110,8 @@ func TestSerdeObjToMap(t *testing.T) {
 	if s2["SubPtr"].(*Sub1).Generic1 != s1.SubPtr.Generic1 {
 		t.Errorf("Generic  error")
 	}
-	fmt.Println(toolkit.JsonString(s1))
-	fmt.Println(toolkit.JsonString(s2))
+	fmt.Println(codekit.JsonString(s1))
+	fmt.Println(codekit.JsonString(s2))
 }
 
 func TestSerdeMapToMap(t *testing.T) {
@@ -145,8 +145,8 @@ func TestSerdeMapToMap(t *testing.T) {
 	if s2["Date2"].(time.Time).String() != s1["Date2"].(time.Time).String() {
 		t.Errorf("Date error")
 	}
-	fmt.Println(toolkit.JsonString(s1))
-	fmt.Println(toolkit.JsonString(s2))
+	fmt.Println(codekit.JsonString(s1))
+	fmt.Println(codekit.JsonString(s2))
 }
 
 func TestSliceOfMapToSliceOfObj(t *testing.T) {
