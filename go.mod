@@ -1,5 +1,5 @@
 module github.com/ariefdarmawan/serde
 
-go 1.18
+go 1.16
 
-require github.com/sebarcode/codekit v0.0.0-20220616144406-d7c5cafaca19
+require github.com/sebarcode/codekit v0.1.0

@@ -48,7 +48,7 @@ func TestSerdeMapToObj(t *testing.T) {
 		"Data1": "Data1_X",
 		"Data2": "Data2_X",
 		"Int2":  804,
-		"Date2": time.Now(),
+		"D2":    time.Now(),
 		"SubPtr": map[string]interface{}{
 			"Sub2":     809,
 			"Generic1": int(2020),
@@ -71,7 +71,7 @@ func TestSerdeMapToObj(t *testing.T) {
 		t.Errorf("Sub ptr error")
 	}
 
-	if s2.Date2 == nil || s2.Date2.String() != s1["Date2"].(time.Time).String() {
+	if s2.Date2 == nil || s2.Date2.Format(time.RFC3339) != s1["D2"].(time.Time).Format(time.RFC3339) {
 		t.Errorf("Date error")
 	}
 	fmt.Println(codekit.JsonString(s1))
@@ -120,7 +120,7 @@ func TestSerdeMapToMap(t *testing.T) {
 		"Data1": "Data1_X",
 		"Data2": "Data2_X",
 		"Int2":  804,
-		"Date2": date2,
+		"D2":    date2,
 		"SubPtr": map[string]interface{}{
 			"Sub2":     809,
 			"Generic1": int(2020),
@@ -142,7 +142,7 @@ func TestSerdeMapToMap(t *testing.T) {
 	if s2["SubPtr"].(map[string]interface{})["Generic1"] != s2["SubPtr"].(map[string]interface{})["Generic1"] {
 		t.Errorf("Generic error")
 	}
-	if s2["Date2"].(time.Time).String() != s1["Date2"].(time.Time).String() {
+	if s2["D2"].(time.Time).Format(time.RFC3339) != s1["D2"].(time.Time).Format(time.RFC3339) {
 		t.Errorf("Date error")
 	}
 	fmt.Println(codekit.JsonString(s1))
@@ -155,7 +155,7 @@ func TestSliceOfMapToSliceOfObj(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
 		ms = append(ms, map[string]interface{}{
-			"Date2": time.Now(),
+			"D2": time.Now(),
 			"SubPtr": map[string]interface{}{
 				"Generic1": int32(i * 100),
 			},
@@ -174,7 +174,7 @@ func TestSliceOfMapToSliceOfObj(t *testing.T) {
 	if ms[7]["SubPtr"].(map[string]interface{})["Generic1"] != objs[7].SubPtr.Generic1 {
 		t.Errorf("Generic error")
 	}
-	if ms[7]["Date2"].(time.Time).String() != objs[7].Date2.String() {
+	if ms[7]["D2"].(time.Time).Format(time.RFC3339) != objs[7].Date2.Format(time.RFC3339) {
 		t.Errorf("Date error")
 	}
 }
@@ -185,7 +185,7 @@ func TestSliceOfMapToSliceOfPtrObj(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
 		ms = append(ms, map[string]interface{}{
-			"Date2": time.Now(),
+			"D2": time.Now(),
 			"SubPtr": map[string]interface{}{
 				"Generic1": int32(i * 100),
 			},
@@ -204,7 +204,7 @@ func TestSliceOfMapToSliceOfPtrObj(t *testing.T) {
 	if ms[7]["SubPtr"].(map[string]interface{})["Generic1"] != objs[7].SubPtr.Generic1 {
 		t.Errorf("Generic error")
 	}
-	if ms[7]["Date2"].(time.Time).String() != objs[7].Date2.String() {
+	if ms[7]["D2"].(time.Time).Format(time.RFC3339) != objs[7].Date2.Format(time.RFC3339) {
 		t.Errorf("Date error")
 	}
 }
@@ -235,7 +235,7 @@ func TestSliceOfObjToSliceOfMap(t *testing.T) {
 	if objs[7].SubPtr.Generic1 != ms[7]["SubPtr"].(*Sub1).Generic1 {
 		t.Errorf("Generic error")
 	}
-	if objs[7].Date2.String() != ms[7]["Date2"].(*time.Time).String() {
+	if objs[7].Date2.Format(time.RFC3339) != ms[7]["D2"].(*time.Time).Format(time.RFC3339) {
 		t.Errorf("Date error")
 	}
 }
@@ -267,7 +267,7 @@ type Struct2 struct {
 	Data1  string
 	Int1   int
 	Int2   int32
-	Date2  *time.Time
+	Date2  *time.Time `json:"D2"`
 	Map    map[string]int
 	SubPtr *Sub1
 }
