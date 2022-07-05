@@ -189,6 +189,7 @@ func TestSliceOfMapToSliceOfPtrObj(t *testing.T) {
 			"SubPtr": map[string]interface{}{
 				"Generic1": int32(i * 100),
 			},
+			"Roles": []interface{}{"Manager", "Class V"},
 		})
 	}
 
@@ -207,6 +208,10 @@ func TestSliceOfMapToSliceOfPtrObj(t *testing.T) {
 	if ms[7]["D2"].(time.Time).Format(time.RFC3339) != objs[7].Date2.Format(time.RFC3339) {
 		t.Errorf("Date error")
 	}
+	if ms[7]["Roles"].([]interface{})[1] != objs[7].Roles[1] {
+		t.Errorf("Roles (slices) error")
+	}
+	fmt.Println(codekit.JsonString(objs[7]))
 }
 
 func TestSliceOfObjToSliceOfMap(t *testing.T) {
@@ -258,6 +263,7 @@ type Struct1 struct {
 	Date1  time.Time
 	Date2  *time.Time
 	Map    map[string]int
+	Roles  []string
 	Sub    Sub1
 	SubPtr *Sub1
 }
@@ -269,5 +275,6 @@ type Struct2 struct {
 	Int2   int32
 	Date2  *time.Time `json:"D2"`
 	Map    map[string]int
+	Roles  []string
 	SubPtr *Sub1
 }

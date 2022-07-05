@@ -32,11 +32,20 @@ func CopyValue(source, dest reflect.Value) error {
 
 	sourceIsInterface := sourceTypeName == "interface {}"
 	sourceIsMap := source.Kind() == reflect.Map
+	//sourceIsSlice := source.Kind() == reflect.Slice
+
 	//sourceIsDate := source.Type().String() == "time.Time"
 	destIsDate := dest.Type().String() == "time.Time"
-
 	destIsMap := dest.Kind() == reflect.Map
 	destIsStruct := dest.Kind() == reflect.Struct
+	destIsSlice := dest.Kind() == reflect.Slice
+
+	/*
+		if (sourceIsSlice && !destIsSlice) || (!sourceIsSlice && destIsSlice) {
+			return fmt.Errorf("both destination should be slice. Currently it is %s and %s",
+				sourceTypeName, destTypeName)
+		}
+	*/
 
 	//--- not a time.Time
 	if !destIsDate {
@@ -53,6 +62,10 @@ func CopyValue(source, dest reflect.Value) error {
 			sourceData := source.Interface()
 			return CopyValue(reflect.ValueOf(sourceData), dest)
 		}
+	}
+
+	if destIsSlice && sourceTypeName != destTypeName {
+		return SerdeSlice(reflect.ValueOf(source.Interface()), dest)
 	}
 
 	var e error
