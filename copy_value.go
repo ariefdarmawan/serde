@@ -15,10 +15,11 @@ func CopyValue(source, dest reflect.Value) error {
 		return CopyValue(source.Elem(), dest)
 	}
 
-	if dest.Kind() == reflect.Ptr {
-		if dest.IsNil() {
-			return errors.New("destination is nil")
-		}
+	destKind := dest.Kind()
+	if (destKind == reflect.Map || destKind == reflect.Ptr) && dest.IsNil() {
+		return errors.New("destination is nil")
+	}
+	if destKind == reflect.Ptr {
 		return CopyValue(source, dest.Elem())
 	}
 
@@ -169,6 +170,9 @@ func copyValueToStruct(source, dest reflect.Value, sourceIsMap, ignoreError bool
 }
 
 func copyValueToMap(source, dest reflect.Value, sourceIsMap, ignoreError bool) error {
+	if dest.IsNil() {
+		return errors.New("dest is nil")
+	}
 	keys := []reflect.Value{}
 	sourceType := source.Type()
 	fieldCount := 0
