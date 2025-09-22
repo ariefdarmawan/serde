@@ -26,7 +26,8 @@ func Serde(source, dest interface{}) error {
 		return SerdeSlice(vSource, vDest)
 	}
 
-	return CopyValue(vSource, vDest.Elem())
+	vDestElem := vDest.Elem()
+	return CopyValue(vSource, vDestElem)
 }
 
 func SerdeSlice(source, dest reflect.Value) error {
